@@ -68,7 +68,7 @@ Enemy.prototype.drawHitBox = function (x, y, width, height, color) {
 var Player = function(){
     this.sprite = 'images/char-boy.png';
     this.x = 200;
-    this.y = 400;
+    this.y = 430;
     this.boxWidth = 69;
     this.boxHeight = 79;
     this.boxXvalue = this.x + 16;
@@ -108,8 +108,8 @@ Player.prototype.update = function(){
         if (this.y < 0){
             console.log("you win");
             this.reset();
-        }else if (this.y > 400) {
-            this.y = 400;
+        }else if (this.y > 430) {
+            this.y = 430;
         }
     }
     this.UpdateHitbox();
@@ -142,11 +142,7 @@ Player.prototype.checkCollisions = function(){
 }
 
 // Update the player's position, required method for game
-// Parameter: dt, a time delta between ticks
 Player.prototype.handleInput = function(direction) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     switch(direction){
         case "left":
             this.x -=100;
@@ -165,7 +161,7 @@ Player.prototype.handleInput = function(direction) {
 
 Player.prototype.reset = function(){
     this.x = 200;
-    this.y = 400;
+    this.y = 430;
 }
 
 // Now instantiate your objects.
