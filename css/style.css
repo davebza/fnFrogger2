@@ -1,3 +1,29 @@
 body {
     text-align: center;
+    background-image: url('stripesAndStars.gif');
+}
+
+canvas {
+
+}
+
+#head {
+    /*width: 60%;*/
+    background-color: #30b9b7;
+    /*margin: 0px auto;*/
+}
+
+#lives {
+    background-color: red;
+    color: white;
+
+}
+#score {
+    background-color: red;
+    color: white;
+}
+
+.navbar {
+    color: white;
+    height: 82px;
 }
