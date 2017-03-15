@@ -48,7 +48,7 @@ var Engine = (function(global) {
         update(dt);
         if(play === 1 && lives > 0){
             render();
-        };
+        }
 
 
         /* Set our lastTime variable which is used to determine the time delta
