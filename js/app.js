@@ -1,12 +1,22 @@
 var play = 1;
+var lives = 3;
+var score = 0;
+
+$('#lifeOutput').html("<h1>"+lives+"<h1>");
+$('#scoreOutput').html("<h1>"+score+"<h1>");
 //SetSpeed function:
 function setSpeed() {
     //this sets the speed of the enemy bug to be randomly slow or fast within a range:
     return Math.random() * (300 - 150) + 150;
 }
 
-function youWin(){
-   play = 0;
+function youWin(player){
+    score = score+1000;
+    score = score*lives;
+    $('#scoreOutput').html("<h1>"+score+"<h1>");
+    play = 0;
+    $('#canvasContainer').empty();
+    $('#canvasContainer').append('<img src="images/youWin.jpg">');
 }
 
 // Enemies our player must avoid
@@ -20,7 +30,7 @@ var Enemy = function(x, y) {
     this.x = x;
     this.y = y;
     this.boxY = this.y+77;
-    this.boxWidth = 100;
+    this.boxWidth = 98;
     this.boxHeight = 67;
     this.speed = setSpeed();
     this.hitbox = {x:this.x, y:this.y, width:this.boxWidth, height:this.boxHeight};
@@ -48,7 +58,7 @@ Enemy.prototype.render = function() {
     var rectY = this.y+77;
     var rectWidth = this.boxWidth;
     var rectHeight = this.boxHeight;
-    this.drawHitBox(rectX, rectY, rectWidth, rectHeight, "red");
+    // this.drawHitBox(rectX, rectY, rectWidth, rectHeight, "red");
 };
 
 Enemy.prototype.makeHitBox = function(){
@@ -73,9 +83,9 @@ var Player = function(){
     this.sprite = 'images/char-boy.png';
     this.x = 200;
     this.y = 430;
-    this.boxWidth = 69;
+    this.boxWidth = 65;
     this.boxHeight = 79;
-    this.boxXvalue = this.x + 16;
+    this.boxXvalue = this.x + 18;
     this.boxYvalue = this.y + 61;
 };
 
@@ -95,7 +105,7 @@ Player.prototype.reset = function(){
 // Draw the enemy on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    this.drawBox(this.boxXvalue, this.boxYvalue, this.boxWidth, this.boxHeight, "yellow");
+    // this.drawBox(this.boxXvalue, this.boxYvalue, this.boxWidth, this.boxHeight, "yellow");
 };
 
 //update the player on keypress:
@@ -117,13 +127,18 @@ Player.prototype.update = function(){
             this.y = 430;
         }
     }
+    if(this.y < 300){
+        score++;
+        $('#scoreOutput').html("<h1>"+score+"<h1>");
+    }
     //then, do the two other processes required each tic: update the player hitbox and check if it's hit anything
     this.updateHitbox();
     this.checkCollisions();
+    console.log(this.x, this.y);
 };
 
 Player.prototype.updateHitbox = function(){
-    this.boxXvalue = this.x + 16;
+    this.boxXvalue = this.x + 18;
     this.boxYvalue = this.y + 61;
 };
 
@@ -138,7 +153,16 @@ Player.prototype.checkCollisions = function(){
             rect1.y < rect2.y + rect2.height &&
             rect1.height + rect1.y > rect2.y) {
             // collision detected!
+            //rest and remove a life
+            lives--;
+            $('#lifeOutput').html("<h1>"+lives+"<h1>");
+            this.render();
             this.reset();
+            //if the player has no lives, end game:
+            if(lives === 0){
+                $('#canvasContainer').empty();
+                $('#canvasContainer').append('<img src="images/gameOver.jpg">');
+            }
         }
     }
 };

@@ -46,9 +46,9 @@ var Engine = (function(global) {
          * our update function since it may be used for smooth animation.
          */
         update(dt);
-        if(play === 1){
+        if(play === 1 && lives > 0){
             render();
-        }
+        };
 
 
         /* Set our lastTime variable which is used to determine the time delta
