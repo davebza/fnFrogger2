@@ -1,7 +1,12 @@
+var play = 1;
 //SetSpeed function:
 function setSpeed() {
     //this sets the speed of the enemy bug to be randomly slow or fast within a range:
     return Math.random() * (300 - 150) + 150;
+}
+
+function youWin(){
+   play = 0;
 }
 
 // Enemies our player must avoid
@@ -43,14 +48,13 @@ Enemy.prototype.render = function() {
     var rectY = this.y+77;
     var rectWidth = this.boxWidth;
     var rectHeight = this.boxHeight;
-
     this.drawHitBox(rectX, rectY, rectWidth, rectHeight, "red");
 };
 
 Enemy.prototype.makeHitBox = function(){
     this.hitbox.x = this.x;
     this.hitbox.y = this.y+77;
-}
+};
 
 Enemy.prototype.drawHitBox = function (x, y, width, height, color) {
     //this function puts the hitbox on the screen
@@ -73,7 +77,7 @@ var Player = function(){
     this.boxHeight = 79;
     this.boxXvalue = this.x + 16;
     this.boxYvalue = this.y + 61;
-}
+};
 
 Player.prototype.drawBox = function (x, y, width, height, color) {
     ctx.beginPath();
@@ -81,6 +85,11 @@ Player.prototype.drawBox = function (x, y, width, height, color) {
     ctx.lineWidth = 2;
     ctx.strokeStyle = color;
     ctx.stroke();
+};
+
+Player.prototype.reset = function(){
+    this.x = 200;
+    this.y = 430;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -101,35 +110,28 @@ Player.prototype.update = function(){
         }
     }
     if (this.y < 0 || this.y > 400){
-        // if(this.y < 100){
-        //     //victory condition:
-        //     alert("you win");
-        // }
         if (this.y < 0){
-            console.log("you win");
             this.reset();
+            youWin();
         }else if (this.y > 430) {
             this.y = 430;
         }
     }
-    this.UpdateHitbox();
+    //then, do the two other processes required each tic: update the player hitbox and check if it's hit anything
+    this.updateHitbox();
     this.checkCollisions();
-}
+};
 
-Player.prototype.UpdateHitbox = function(){
+Player.prototype.updateHitbox = function(){
     this.boxXvalue = this.x + 16;
     this.boxYvalue = this.y + 61;
-}
+};
 
 Player.prototype.checkCollisions = function(){
     var playerBox = {x:this.boxXvalue, y:this.boxYvalue, width:this.boxWidth, height: this.boxHeight};
-
     for(var i = 0; i < allEnemies.length; i++){
         var rect1 = playerBox;
-        // console.log(rect1);
-
         var rect2 = allEnemies[i].hitbox;
-        console.log(rect2);
         //this is the collision check code from the MDN 2d collision check:
         if (rect1.x < rect2.x + rect2.width &&
             rect1.x + rect1.width > rect2.x &&
@@ -139,7 +141,7 @@ Player.prototype.checkCollisions = function(){
             this.reset();
         }
     }
-}
+};
 
 // Update the player's position, required method for game
 Player.prototype.handleInput = function(direction) {
@@ -159,17 +161,11 @@ Player.prototype.handleInput = function(direction) {
     }
 };
 
-Player.prototype.reset = function(){
-    this.x = 200;
-    this.y = 430;
-}
-
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [new Enemy(0, 230), new Enemy(0, 145), new Enemy(0, 60)];
 var player = new Player();
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
