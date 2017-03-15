@@ -14,13 +14,14 @@ canvas {
 }
 
 #lives {
-    background-color: red;
-    color: white;
-
+    background-color: aliceblue;
+    color: black;
 }
+
+
 #score {
-    background-color: red;
-    color: white;
+    background-color: aliceblue;
+    color: black;
 }
 
 .navbar {
