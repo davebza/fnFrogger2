@@ -8,7 +8,7 @@
 
 Use the arrow keys to move your character from the bottom of the screen to the top of the screen. Don't get smashed by the bugs that are running in your way!
 
-![](images/readmePreview.jpg)
+![](images/readmePreview.png)
 
 ## Installation
 
